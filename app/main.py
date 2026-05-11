@@ -18,7 +18,7 @@ def main():
         print("cat-file")
         print(os.listdir(".git/objects"))
         with open(f".git/objects/{os.listdir(".git/objects"[0])}") as f:
-            f.
+            print(f.read())
     elif command == "hash-object":
         print("hash-object")
     else:
