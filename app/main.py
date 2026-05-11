@@ -15,7 +15,10 @@ def main():
             f.write("ref: refs/heads/main\n")
         print("Initialized git directory")
     elif command == "cat-file":
+        print("cat-file")
         print(os.listdir(".git/objects"))
+    elif command == "hash-object":
+        print("hash-object")
     else:
         raise RuntimeError(f"Unknown command #{command}")
 
