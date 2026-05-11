@@ -15,7 +15,7 @@ def main():
             f.write("ref: refs/heads/main\n")
         print("Initialized git directory")
     elif command == "cat-file":
-        os.ls(".git/objects")
+        os.listdir(".git/objects")
     else:
         raise RuntimeError(f"Unknown command #{command}")
 
