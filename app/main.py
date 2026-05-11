@@ -26,7 +26,7 @@ def main():
         print("hash-object")
     else:
         raise RuntimeError(f"Unknown command #{command}")
-
+    
 
 if __name__ == "__main__":
     main()
