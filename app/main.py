@@ -1,6 +1,7 @@
 import sys
 import os
 import zlib
+import hashlib
 
 
 def main():
@@ -23,7 +24,16 @@ def main():
         null_idx = decompressed.index(b"\x00")
         sys.stdout.buffer.write(decompressed[null_idx + 1:])
     elif command == "hash-object":
-        print("hash-object")
+        file_path = sys.argv[3]
+        with open(file_path, "rb") as f:
+            data = f.read()
+        content = b"blob " + str(len(data)).encode() + b"\x00" + data
+        sha = hashlib.sha1(content).hexdigest()
+        obj_dir = f".git/objects/{sha[:2]}"
+        os.makedirs(obj_dir, exist_ok=True)
+        with open(f"{obj_dir}/{sha[2:]}", "wb") as f:
+            f.write(zlib.compress(content))
+        print(sha)
     else:
         raise RuntimeError(f"Unknown command #{command}")
 
