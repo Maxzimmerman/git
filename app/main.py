@@ -1,7 +1,6 @@
 import sys
 import os
 import zlib
-import hashlib
 
 
 def main():
@@ -18,22 +17,15 @@ def main():
         print("Initialized git directory")
     elif command == "cat-file":
         blob_hash = sys.argv[3]
+        print(hash_blob[:2])
+        print(hash_blob[2:])
         obj_path = f".git/objects/{blob_hash[:2]}/{blob_hash[2:]}"
         with open(obj_path, "rb") as f:
             decompressed = zlib.decompress(f.read())
         null_idx = decompressed.index(b"\x00")
         sys.stdout.buffer.write(decompressed[null_idx + 1:])
     elif command == "hash-object":
-        file_path = sys.argv[3]
-        with open(file_path, "rb") as f:
-            data = f.read()
-        content = b"blob " + str(len(data)).encode() + b"\x00" + data
-        sha = hashlib.sha1(content).hexdigest()
-        obj_dir = f".git/objects/{sha[:2]}"
-        os.makedirs(obj_dir, exist_ok=True)
-        with open(f"{obj_dir}/{sha[2:]}", "wb") as f:
-            f.write(zlib.compress(content))
-        print(sha)
+        print("hash-object")
     else:
         raise RuntimeError(f"Unknown command #{command}")
 
